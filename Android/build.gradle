@@ -26,6 +26,8 @@ dependencies {
     //Don't forget to uncomment the lines in the settings.gradle file as well.
 //     compile project(':ClientLib')
 
+    compile 'com.github.deano2390:MaterialShowcaseView:1.2.0'
+
     compile 'me.grantland:autofittextview:0.2.1'
     compile(name:'shimmer-android-release', ext:'aar')
     compile(name:'libuvccamera-release', ext:'aar')
