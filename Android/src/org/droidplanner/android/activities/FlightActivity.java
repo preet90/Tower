@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.droidplanner.android.R;
@@ -15,6 +17,8 @@ import org.droidplanner.android.fragments.FlightDataFragment;
 import org.droidplanner.android.fragments.WidgetsListFragment;
 import org.droidplanner.android.fragments.actionbar.ActionBarTelemFragment;
 import org.droidplanner.android.utils.Utils;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class FlightActivity extends DrawerNavigationUI implements SlidingUpPanelLayout.PanelSlideListener {
 
@@ -103,6 +107,8 @@ public class FlightActivity extends DrawerNavigationUI implements SlidingUpPanel
     public void onStart(){
         super.onStart();
 
+        tutorialSetup();
+
         final Context context = getApplicationContext();
         //Show the changelog if this is the first time the app is launched since update/install
         if(Utils.getAppVersionCode(context) > mAppPrefs.getSavedAppVersionCode()) {
@@ -185,5 +191,38 @@ public class FlightActivity extends DrawerNavigationUI implements SlidingUpPanel
 
     private void resetActionDrawerBottomMargin(){
         updateActionDrawerBottomMargin((int) getResources().getDimension(R.dimen.action_drawer_margin_bottom));
+    }
+
+    private void tutorialSetup() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "FLIGHT_SCREEN");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(getNavButtonInToolBar((Toolbar) findViewById(getToolbarId())),
+                "This is some amazing feature you should know about - Navigation Drawer.", "GOT IT");
+
+        sequence.addSequenceItem(findViewById(R.id.mc_connectBtn),
+                "Choose the connection type (UDP, TCP or USB) and press Connect button", "GOT IT");
+
+        sequence.start();
+}
+
+    private View getNavButtonInToolBar(Toolbar toolbar) {
+        for (int i = 0;i<toolbar.getChildCount();i++) {
+        // Find an instance of and ImageButton in the tool ( The class of the Nav Button )
+            if(toolbar.getChildAt(i) instanceof ImageButton){
+                //this should be the hamburger button
+                ImageButton button = (ImageButton) toolbar.getChildAt(i);
+                // this if statement is optional ( I am just looking for the DrawerArrowDrawable to ensure that I
+                // found the correct ImageButton just in case there are two image buttons in the toolbar for some
+                // reason
+                //if(button.getDrawable().getClass().getSuperclass().equals(DrawerArrowDrawable.class))
+                    return toolbar.getChildAt(i);// if it gets here it means that you most likely found the Nav Button.
+            }
+        }
+        return null; // else it returns null because you haven't implemented the Hamburger menu.
     }
 }
