@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.graphics.drawable.DrawableWrapper;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -212,17 +215,12 @@ public class FlightActivity extends DrawerNavigationUI implements SlidingUpPanel
 
     private View getNavButtonInToolBar(Toolbar toolbar) {
         for (int i = 0;i<toolbar.getChildCount();i++) {
-        // Find an instance of and ImageButton in the tool ( The class of the Nav Button )
+        // Find an instance of and ImageButton in the toolbar.
             if(toolbar.getChildAt(i) instanceof ImageButton){
-                //this should be the hamburger button
-                ImageButton button = (ImageButton) toolbar.getChildAt(i);
-                // this if statement is optional ( I am just looking for the DrawerArrowDrawable to ensure that I
-                // found the correct ImageButton just in case there are two image buttons in the toolbar for some
-                // reason
-                //if(button.getDrawable().getClass().getSuperclass().equals(DrawerArrowDrawable.class))
-                    return toolbar.getChildAt(i);// if it gets here it means that you most likely found the Nav Button.
+                // This should be the hamburger button because we have only one button in the toolbar.
+                return toolbar.getChildAt(i);
             }
         }
-        return null; // else it returns null because you haven't implemented the Hamburger menu.
+        return null; // Did not find Hamburger menu.
     }
 }
